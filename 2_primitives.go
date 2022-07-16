@@ -109,4 +109,17 @@ func main() {
 	// string concat
 	p := " add on"
 	fmt.Println(o + p)
+
+	// converting strings to collection of bytes
+	q := []byte(p)
+	fmt.Printf("%v, %T\n", q, q)
+
+	// --------------------------------------------------------------------------
+
+	// Rune
+	// single quote with one character
+	// true type alias of int32
+	fmt.Println("Rune:")
+	r := 'a'
+	fmt.Printf("%v, %T\n", r, r)
 }
