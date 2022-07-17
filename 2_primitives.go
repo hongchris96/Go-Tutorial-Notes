@@ -51,9 +51,9 @@ func main() {
 
 	// bit shift
 	fmt.Println("Bit Shift:")
-	e := 8              // 2 to the power of 3
-	fmt.Println(e << 3) // 2^3 * 2^3 = 2^6
-	fmt.Println(e >> 3) // 2^3 / 2^3 = 2^0
+	e := 10             // 1010
+	fmt.Println(e << 3) // 1010000 shifting left meaning binary move to the left by adding 000 to the end
+	fmt.Println(e >> 3) // 0001 shifting right meaning binary move to right by adding 000 to the front
 
 	// --------------------------------------------------------------------------
 
