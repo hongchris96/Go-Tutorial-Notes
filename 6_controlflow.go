@@ -71,6 +71,7 @@ func main() {
 	fmt.Println("Switch:")
 	// switch case that checks the value of switchNum
 	switchNum := 5
+	// switchNum here is called a tag
 	switch switchNum {
 	case 1:
 		fmt.Println("case one")
@@ -83,4 +84,50 @@ func main() {
 	default:
 		fmt.Println("default case")
 	}
+
+	// initializer syntax: switch initializer; tag(value that we're checking) {}
+	switch i := 2 + 3; i {
+	case 5:
+		fmt.Println("i is 5")
+	default:
+		fmt.Println("default case")
+	}
+
+	// tagless syntax
+	outerVar := 10
+	switch {
+	// by having no tags, each case can have a full comparison operation
+	case outerVar <= 10:
+		fmt.Println("less than or equal to 10")
+		// notice there's no break keyword for each case, because they are implied in Go switch cases
+		// but if you want it fall through like switch cases in other languages, use fallthrough keyword
+		fallthrough
+	case outerVar <= 20:
+		fmt.Println("less than or equal to 20")
+		fmt.Println("Can have multiple operations in a case block")
+		break // break early to skip the operation below
+		fmt.Println("Skip this statement")
+	default:
+		fmt.Println("greater than 20")
+	}
+
+	// Type switch: checks type of the value in the interface
+	var x interface{} = [3]int{}
+	switch x.(type) {
+	case int:
+		fmt.Println("x is integer")
+	case float64:
+		fmt.Println("x is float64")
+	case string:
+		fmt.Println("x is string")
+	case [2]int:
+		// not all arrays are equivalent
+		// same array types must have the same length and same element type
+		fmt.Println("x is a length 2 array")
+	case [3]int:
+		fmt.Println("x is a length 3 array")
+	default:
+		fmt.Println("x is something else")
+	}
+
 }
