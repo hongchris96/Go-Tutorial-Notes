@@ -64,15 +64,15 @@ outerLoopLabel:
 	// For range loop
 	// special form of for loop to loop through a collection
 	fmt.Println("For Range Loop:")
-	colelction := []int{1, 2, 3} // can be slice, array, map, string
-	for k, v := range colelction {
+	collection := []int{1, 2, 3} // can be slice, array, map, string
+	for k, v := range collection {
 		fmt.Println(k, v)
 		// slice and array:	k -> index, v -> element
 		// map: 			k -> key, v -> value
 		// string: 			k -> index, v -> char unicode
 	}
 	// for range initializer variable must be used, if you know one is not gonna be used, replace it with _
-	for k, _ := range colelction {
+	for k, _ := range collection {
 		fmt.Println(k)
 		// slice and array:	k -> index, v -> element
 		// map: 			k -> key, v -> value
