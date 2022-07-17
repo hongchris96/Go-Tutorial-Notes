@@ -49,7 +49,7 @@ func main() {
 	fmt.Println(sampleMap)
 
 	// array is a valid key type but slice is not
-	mapWithArrayKey := map[[3]int]string{}
+	mapWithArrayKey := map[[3]int]string{[3]int{2, 2, 2}: "two"}
 	fmt.Println(mapWithArrayKey)
 
 	// making a map with make(map[ keyType ]valueType, optional second int variable with no effect)
