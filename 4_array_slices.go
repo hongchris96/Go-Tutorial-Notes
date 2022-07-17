@@ -83,7 +83,7 @@ func main() {
 	fmt.Println(eleEndAt)
 	fmt.Println(eleBetween)
 
-	// creating slice using make(type, length of slice, length of underlying array)
+	// creating slice using make(type, length of slice, optional length of underlying array)
 	makeSlice := make([]int, 3, 100)
 	fmt.Println(makeSlice) // initializes elements to 0
 	fmt.Printf("Slices length: %v\n", len(makeSlice))
