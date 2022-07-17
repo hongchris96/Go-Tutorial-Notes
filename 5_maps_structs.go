@@ -155,5 +155,5 @@ func main() {
 	// Tags (see above function main)
 	t := reflect.TypeOf(Animal{})
 	field, _ := t.FieldByName("Name")
-	fmt.Println(field)
+	fmt.Println(field.Tag)
 }
