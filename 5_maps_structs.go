@@ -68,7 +68,8 @@ func main() {
 
 	// reading value of key that doesn't exist
 	fmt.Println(sampleMap["x"]) // returns 0
-	// destructure keyed value to two variables
+	// destructure keyed in value to two variables
+	// both values must be used
 	xValue1, xValue2 := sampleMap["x"] // returns 0, false (first value will be zero if doesn't exist)
 	fmt.Println(xValue1, xValue2)
 	dioValue1, dioValue2 := sampleMap["Dio"] // returns 1234521, true (first value returns the value if exist)
