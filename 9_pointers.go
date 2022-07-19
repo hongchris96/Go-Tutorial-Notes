@@ -38,7 +38,7 @@ func main() {
 	x := [3]int{1, 2, 3}
 	y := &x[0]
 	z := &x[1]
-	fmt.Println("%v %p %p\n", x, y, z) // %p prints the value of pointer of y and z, which are addresses here
+	fmt.Printf("%v %p %p\n", x, y, z) // %p prints the value of pointer of y and z, which are addresses here
 	// each element in an array are 4 bytes apart, so their memory address number has a difference of 4
 
 	var ms *myStruct        // pointer to a myStruct
