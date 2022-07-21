@@ -36,7 +36,7 @@ func main() {
 		fmt.Println(msg) // has access to the outer scope, but not best practice cuz of race condition
 		wgroup.Done()
 	}(msg) // pass in value as args is better
-	msg = "Goodbye" // lines in main function runs first, then the goroutine function
+	msg = "Goodbye" // if no waitgroup wraps,lines in main function runs simultaneously with goroutine function
 	wgroup.Wait()
 	// time.Sleep(100 * time.Millisecond) // delay the main function return, so that goroutine function can run, not best practice
 
