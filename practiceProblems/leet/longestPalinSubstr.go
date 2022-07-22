@@ -11,33 +11,28 @@ func main() {
 func longestPalindrome(s string) string {
 
 	globalMax := string(s[0])
-	i := 0
 
-	for ; i < len(s)-1; i++ {
-		leftIdx := i
-		rightIdx := i
+	for i := 0; i < len(s)-1; i++ {
+		// odd number palindrome
 		if i-1 > -1 && s[i-1] == s[i+1] {
-			leftIdx = i - 1
-			rightIdx = i + 1
-			for leftIdx > -1 && rightIdx < len(s) && s[leftIdx] == s[rightIdx] {
-				leftIdx -= 1
-				rightIdx += 1
-			}
-			if rightIdx-leftIdx-1 > len(globalMax) {
-				globalMax = string(s[leftIdx+1 : rightIdx])
-			}
+			middleOutUpdateLongestPalindrome(i-1, i+1, s, &globalMax)
 		}
+		// even number palindrome
 		if s[i] == s[i+1] {
-			leftIdx = i
-			rightIdx = i + 1
-			for leftIdx > -1 && rightIdx < len(s) && s[leftIdx] == s[rightIdx] {
-				leftIdx -= 1
-				rightIdx += 1
-			}
-			if rightIdx-leftIdx-1 > len(globalMax) {
-				globalMax = string(s[leftIdx+1 : rightIdx])
-			}
+			middleOutUpdateLongestPalindrome(i, i+1, s, &globalMax)
 		}
 	}
 	return globalMax
+}
+
+func middleOutUpdateLongestPalindrome(left, right int, str string, globalLongest *string) {
+	// expand left and right until out of range or no longer a palindrome
+	for left > -1 && right < len(str) && str[left] == str[right] {
+		left -= 1
+		right += 1
+	}
+	// update globalMax
+	if right-left-1 > len(*globalLongest) {
+		*globalLongest = string(str[left+1 : right])
+	}
 }
