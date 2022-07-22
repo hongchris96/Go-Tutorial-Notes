@@ -31,7 +31,7 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		answerTracker.Val = currentDigitSum % 10
 		tracker1 = tracker1.Next
 		tracker2 = tracker2.Next
-		if tracker1 == nil || tracker2 == nil {
+		if tracker1 == nil && tracker2 == nil {
 			break
 		}
 		nextNode := ListNode{}
@@ -39,8 +39,29 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		answerTracker = answerTracker.Next
 	}
 
-	for tracker1 != nil {
-		currentDigitSum := tracker1.Val + carryOver
+	var remainingTracker *ListNode
+
+	if tracker1 != nil {
+		remainingTracker = tracker1
+	} else if tracker2 != nil {
+		remainingTracker = tracker2
+	}
+
+	for remainingTracker != nil {
+		currentDigitSum := remainingTracker.Val + carryOver
+		if currentDigitSum >= 10 {
+			answerTracker.Val = 0
+			if remainingTracker.Next != nil {
+				answerTracker.Next = &ListNode{}
+				answerTracker = answerTracker.Next
+			}
+			remainingTracker = remainingTracker.Next
+		} else {
+			carryOver = 0
+			answerTracker.Val = currentDigitSum
+			answerTracker.Next = remainingTracker.Next
+			break
+		}
 	}
 
 	if carryOver == 1 {
