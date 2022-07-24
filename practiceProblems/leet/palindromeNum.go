@@ -13,18 +13,29 @@ func isPalindrome(x int) bool {
 		return false
 	}
 
-	digits := []int{}
+	// digits := []int{}
+	// for x > 0 {
+	// 	digit := x % 10
+	// 	digits = append(digits, digit)
+	// 	x /= 10
+	// }
+
+	// for i, j := 0, len(digits)-1; i < j; i, j = i+1, j-1 {
+	// 	if digits[i] != digits[j] {
+	// 		return false
+	// 	}
+	// }
+
+	// return true
+
+	reverseNum := 0
+	forwardNum := x
+
 	for x > 0 {
 		digit := x % 10
-		digits = append(digits, digit)
+		reverseNum = reverseNum*10 + digit
 		x /= 10
 	}
 
-	for i, j := 0, len(digits)-1; i < j; i, j = i+1, j-1 {
-		if digits[i] != digits[j] {
-			return false
-		}
-	}
-
-	return true
+	return reverseNum == forwardNum
 }
