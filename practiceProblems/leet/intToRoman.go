@@ -16,30 +16,30 @@ func intToRoman(num int) string {
 		500:  "D",
 		1000: "M",
 	}
-	roman := ""
-	zeroes := 1
+	romanTotal := ""
+	zeroes := 1 // zeroes are 1 and multiple of 10s
 	for num > 0 {
 		digit := num % 10
+		// building roman symbol for the current digit * zeroes
 		targetNum := digit * zeroes
 		numCreated := 0
 		romanCreated := ""
-		if digit == 4 {
-			romanCreated = translation[zeroes] + translation[5*zeroes]
-			numCreated += 4 * zeroes
-		} else if digit == 9 {
-			romanCreated = translation[zeroes] + translation[10*zeroes]
-			numCreated += 9 * zeroes
+		if digit == 4 || digit == 9 {
+			// the subtraction display
+			romanCreated = translation[zeroes] + translation[(digit+1)*zeroes]
+			numCreated += digit * zeroes
 		} else if digit >= 5 {
 			romanCreated = translation[5*zeroes]
 			numCreated += 5 * zeroes
 		}
+		// if number value created so far is still less than target number, add trailing symbols
 		for numCreated < targetNum {
 			romanCreated += translation[zeroes]
 			numCreated += zeroes
 		}
 		num /= 10
 		zeroes *= 10
-		roman = romanCreated + roman
+		romanTotal = romanCreated + romanTotal
 	}
-	return roman
+	return romanTotal
 }
