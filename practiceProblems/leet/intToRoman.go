@@ -17,28 +17,28 @@ func intToRoman(num int) string {
 		1000: "M",
 	}
 	roman := ""
-	tens := 1
+	zeroes := 1
 	for num > 0 {
 		digit := num % 10
-		targetNum := digit * tens
+		targetNum := digit * zeroes
 		numCreated := 0
 		romanCreated := ""
 		if digit == 4 {
-			romanCreated = translation[tens] + translation[5*tens]
-			numCreated += 4 * tens
+			romanCreated = translation[zeroes] + translation[5*zeroes]
+			numCreated += 4 * zeroes
 		} else if digit == 9 {
-			romanCreated = translation[tens] + translation[10*tens]
-			numCreated += 9 * tens
+			romanCreated = translation[zeroes] + translation[10*zeroes]
+			numCreated += 9 * zeroes
 		} else if digit >= 5 {
-			romanCreated = translation[5*tens]
-			numCreated += 5 * tens
+			romanCreated = translation[5*zeroes]
+			numCreated += 5 * zeroes
 		}
 		for numCreated < targetNum {
-			romanCreated += translation[tens]
-			numCreated += tens
+			romanCreated += translation[zeroes]
+			numCreated += zeroes
 		}
 		num /= 10
-		tens *= 10
+		zeroes *= 10
 		roman = romanCreated + roman
 	}
 	return roman
