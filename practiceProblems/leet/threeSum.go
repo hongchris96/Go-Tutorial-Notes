@@ -12,44 +12,47 @@ func main() {
 }
 
 func threeSum(nums []int) [][]int {
+	sort.Ints(nums)
 	uniqueTriplets := [][]int{}
 	for i := 0; i < len(nums)-2; i++ {
-		sets := twoSum(nums[i+1:], -nums[i])
-		for _, set := range sets {
-			duplicate := false
-			for _, triplet := range uniqueTriplets {
-				if arrEqual(triplet, set) {
-					duplicate = true
-					break
-				}
-			}
-			if !duplicate {
-				uniqueTriplets = append(uniqueTriplets, set)
-			}
+		if nums[i] > 0 { // if positive no num after can sum to zero
+			break
 		}
+		if i > 0 && nums[i] == nums[i-1] { // prevent duplicate
+			continue
+		}
+		uniqueTriplets = append(uniqueTriplets, twoSum(nums[i+1:], nums[i])...)
 	}
 	return uniqueTriplets
 }
 
-func twoSum(nums []int, target int) [][]int {
+func twoSum(nums []int, firstNum int) [][]int {
 	triplets := [][]int{}
-	numLocation := map[int]int{}
-	for i, num := range nums {
-		if _, ok := numLocation[target-num]; ok {
-			triplet := []int{-target, target - num, num}
-			sort.Ints(triplet)
-			triplets = append(triplets, triplet)
+	leftI := 0
+	rightI := len(nums) - 1
+
+	for leftI < rightI {
+		currentSum := firstNum + nums[leftI] + nums[rightI]
+		if currentSum == 0 {
+			triplets = append(triplets, []int{firstNum, nums[leftI], nums[rightI]})
+			leftI++ // moving on to next num
+			goLeftTilDifferent(leftI, &rightI, nums)
+		} else if currentSum > 0 {
+			// need to lower the bigger positive number
+			goLeftTilDifferent(leftI, &rightI, nums)
+		} else {
+			// need to increase the negative number
+			leftI++
+			// duplicate removal from the left side was handled above in the outer function
 		}
-		numLocation[num] = i
 	}
 	return triplets
 }
 
-func arrEqual(nums1, nums2 []int) bool {
-	for i := 0; i < 3; i++ {
-		if nums1[i] != nums2[i] {
-			return false
-		}
+func goLeftTilDifferent(head int, i *int, nums []int) {
+	// remove duplicate from the right side
+	*i--
+	for head < *i && nums[*i] == nums[*i+1] {
+		*i--
 	}
-	return true
 }
