@@ -9,6 +9,9 @@ func main() {
 	fmt.Println(sorted)
 
 	// Quick sort
+	qsorted := quickSort(unsorted)
+	fmt.Println(qsorted)
+
 	// Bucket sort
 	// Heap sort
 	// Counting sort
@@ -49,4 +52,27 @@ func mergeHelper(list1, list2 []int) []int {
 	}
 
 	return newList
+}
+
+func quickSort(list []int) []int {
+	if len(list) <= 1 {
+		return list
+	}
+	pivot := list[0]
+	listLength := len(list)
+	smaller := filter(list[1:listLength], func(num int) bool { return num <= pivot })
+	greater := filter(list[1:listLength], func(num int) bool { return num >= pivot })
+
+	newSlice := append(quickSort(smaller), pivot)
+	return append(newSlice, quickSort(greater)...)
+}
+
+func filter(list []int, condition func(num int) bool) []int {
+	filteredList := []int{}
+	for _, num := range list {
+		if condition(num) {
+			filteredList = append(filteredList, num)
+		}
+	}
+	return filteredList
 }
