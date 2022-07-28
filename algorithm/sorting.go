@@ -13,6 +13,8 @@ func main() {
 	fmt.Println(qsorted)
 
 	// Bucket sort
+	bucketSorted := bucketSort([]int{328, 834, 329, 983, 249, 832, 564, 895, 329, 493, 721, 980, 469, 890, 342})
+	fmt.Println(bucketSorted)
 	// Heap sort
 	// Counting sort
 	// Selection sort
@@ -75,4 +77,31 @@ func filter(list []int, condition func(num int) bool) []int {
 		}
 	}
 	return filteredList
+}
+
+func bucketSort(nums []int) []int {
+	answer := []int{}
+	buckets := [10][]int{}
+	max := nums[0]
+	maxDig := 1
+	for _, num := range nums {
+		if num > max {
+			max = num
+		}
+	}
+	max /= 10
+	for max > 0 {
+		maxDig *= 10
+		max /= 10
+	}
+
+	for _, num := range nums {
+		targetBucket := num / maxDig
+		buckets[targetBucket] = append(buckets[targetBucket], num)
+	}
+	for _, bucket := range buckets {
+		quickSort(bucket)
+		answer = append(answer, bucket...)
+	}
+	return answer
 }
