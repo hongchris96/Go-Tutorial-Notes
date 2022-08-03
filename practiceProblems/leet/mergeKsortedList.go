@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type ListNode struct {
 	Val  int
@@ -33,7 +36,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 }
 
 func getMinValFromHeads(lists []*ListNode) int {
-	min := 100000
+	min := math.MaxInt64
 	for _, node := range lists {
 		if node != nil && node.Val < min {
 			min = node.Val
