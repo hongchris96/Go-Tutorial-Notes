@@ -6,26 +6,12 @@ import (
 )
 
 func main() {
-	a := []int{1, 2, 3}
+	a := []int{5, 4, 7, 5, 3, 2}
 	nextPermutation(a)
 	fmt.Println(a)
 }
 
 func nextPermutation(nums []int) {
-	// 1234
-	// 1243
-	// 1324
-	// 1342
-	// 1423
-	// 1432
-
-	// 12453
-	// 125034
-	// 125430
-	// 125
-	// 2134
-	// 2143
-	// 2314
 	if len(nums) > 1 {
 		if decSorted(nums) {
 			sort.Ints(nums)
@@ -48,11 +34,11 @@ func findPeak(nums []int) {
 		temp := nums[largestIdx-1]
 		nums[largestIdx-1] = largestNum
 		nums[largestIdx] = temp
-	} else if largestIdx == len(nums)-2 { // still need to handle largestIdx at 0
+	} else if largestIdx == len(nums)-2 {
 		swapNsort(nums, largestIdx)
 	} else {
-		if decSorted(nums[largestIdx+1:]) {
-			swapNsort(nums[largestIdx-1:])
+		if decSorted(nums[largestIdx:]) {
+			swapNsort(nums[largestIdx-1:], 1)
 		} else {
 			findPeak(nums[largestIdx+1:])
 		}
@@ -60,32 +46,37 @@ func findPeak(nums []int) {
 }
 
 func swapNsort(nums []int, peak int) {
-	swapingNum := nums[len(nums)-1]
+	swapingNums := append([]int{}, nums[peak:]...)
+	sort.Ints(swapingNums)
+	i := 0
+	swapingNum := swapingNums[i]
 	swappable := false
-	for i := peak - 1; i >= 0; i-- {
-		if nums[i] < swapingNum {
+	for !swappable {
+		if nums[peak-1] < swapingNum {
 			swappable = true
+		}
+		if !swappable {
+			i++
+			swapingNum = swapingNums[i]
+		}
+	}
+	swapingNumIdx := -1
+	i = len(nums) - 1
+	for ; i >= 0; i-- {
+		if swapingNumIdx == -1 {
+			if swapingNum == nums[i] {
+				swapingNumIdx = i
+			}
+			continue
+		}
+		if i < peak && nums[i] < swapingNum {
+			temp := nums[i]
+			nums[i] = swapingNum
+			nums[swapingNumIdx] = temp
 			break
 		}
 	}
-	if swappable {
-		i := len(nums) - 1
-		for ; i >= 0; i-- {
-			if nums[i] < swapingNum {
-				temp := nums[i]
-				nums[i] = swapingNum
-				nums[i+1] = temp
-				break
-			}
-			nums[i] = nums[i-1]
-		}
-		sort.Ints(nums[i+1:])
-	} else {
-		temp := nums[peak-1]
-		nums[peak-1] = nums[peak]
-		nums[peak] = temp
-		sort.Ints(nums[peak:])
-	}
+	sort.Ints(nums[peak:])
 }
 
 func decSorted(nums []int) bool {
