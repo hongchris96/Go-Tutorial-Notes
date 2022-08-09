@@ -12,78 +12,24 @@ func main() {
 }
 
 func nextPermutation(nums []int) {
-	if len(nums) > 1 {
-		if decSorted(nums) {
-			sort.Ints(nums)
-		} else {
-			findPeak(nums)
-		}
+	lastIdx := len(nums) - 1
+	swapIdx1 := lastIdx - 1
+	// iterate left until the swapIdx1 has a right neighbor that's greater
+	for swapIdx1 >= 0 && nums[swapIdx1] >= nums[swapIdx1+1] {
+		swapIdx1--
 	}
-}
-
-func findPeak(nums []int) {
-	largestIdx := 0
-	largestNum := nums[0]
-	for i := 1; i < len(nums); i++ {
-		if nums[i] > largestNum {
-			largestNum = nums[i]
-			largestIdx = i
+	if swapIdx1 > -1 {
+		swapIdx2 := lastIdx
+		// iterate left until swapIdx2 is greater than swapIdx1
+		for swapIdx2 > swapIdx1 && nums[swapIdx1] >= nums[swapIdx2] {
+			swapIdx2--
 		}
+		// swap the numbers
+		temp := nums[swapIdx2]
+		nums[swapIdx2] = nums[swapIdx1]
+		nums[swapIdx1] = temp
 	}
-	if largestIdx == len(nums)-1 {
-		temp := nums[largestIdx-1]
-		nums[largestIdx-1] = largestNum
-		nums[largestIdx] = temp
-	} else if largestIdx == len(nums)-2 {
-		swapNsort(nums, largestIdx)
-	} else {
-		if decSorted(nums[largestIdx:]) {
-			swapNsort(nums[largestIdx-1:], 1)
-		} else {
-			findPeak(nums[largestIdx+1:])
-		}
-	}
-}
-
-func swapNsort(nums []int, peak int) {
-	swapingNums := append([]int{}, nums[peak:]...)
-	sort.Ints(swapingNums)
-	i := 0
-	swapingNum := swapingNums[i]
-	swappable := false
-	for !swappable {
-		if nums[peak-1] < swapingNum {
-			swappable = true
-		}
-		if !swappable {
-			i++
-			swapingNum = swapingNums[i]
-		}
-	}
-	swapingNumIdx := -1
-	i = len(nums) - 1
-	for ; i >= 0; i-- {
-		if swapingNumIdx == -1 {
-			if swapingNum == nums[i] {
-				swapingNumIdx = i
-			}
-			continue
-		}
-		if i < peak && nums[i] < swapingNum {
-			temp := nums[i]
-			nums[i] = swapingNum
-			nums[swapingNumIdx] = temp
-			break
-		}
-	}
-	sort.Ints(nums[peak:])
-}
-
-func decSorted(nums []int) bool {
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] < nums[i+1] {
-			return false
-		}
-	}
-	return true
+	// sort the right half from the swapping point
+	// (if the nums are in sorted descending order, sorts the whole slice)
+	sort.Ints(nums[swapIdx1+1:])
 }
