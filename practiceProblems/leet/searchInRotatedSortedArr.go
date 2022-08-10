@@ -4,33 +4,35 @@ import "fmt"
 
 func main() {
 	fmt.Println(search([]int{4, 5, 6, 7, 0, 1, 2}, 0))
-	//						 0, 1, 2, 3, 4, 5, 6
-	// fmt.Println(search([]int{2, 3, 4, 5, 6, 7, 1}, 2))
-	//							 	 0, 1, 2, 3, 4, 5, 6
+	fmt.Println(search([]int{2, 3, 4, 5, 6, 7, 1}, 2))
 }
 
 func search(nums []int, target int) int {
 	leftBound, rightBound := findBoundaries(nums)
-	start := leftBound
-	end := rightBound
-
-	for start != end {
-		midIdx := (end + start) / 2
-		if end < start {
-			midIdx = ((end + start + len(nums)) / 2) % len(nums)
-		}
-		if nums[midIdx] > target {
-			end = (midIdx - 1 + len(nums)) % len(nums)
-		} else if nums[midIdx] < target {
-			start = (midIdx + 1) % len(nums)
-		} else {
-			return midIdx
-		}
+	newArr := []int{}
+	adjustment := 0
+	if leftBound > rightBound {
+		adjustment = leftBound
+		newArr = append(newArr, nums[leftBound:]...)
+		newArr = append(newArr, nums[:rightBound+1]...)
+	} else {
+		newArr = nums
 	}
-	if nums[start] == target {
-		return start
+	start := 0
+	end := len(nums) - 1
+
+	for start <= end {
+		midIdx := (start + end) / 2
+		if newArr[midIdx] == target {
+			return (midIdx + adjustment) % len(nums)
+		} else if newArr[midIdx] > target {
+			end = midIdx - 1
+		} else {
+			start = midIdx + 1
+		}
 	}
 	return -1
+
 }
 
 func findBoundaries(nums []int) (int, int) {
