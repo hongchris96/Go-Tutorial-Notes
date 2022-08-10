@@ -9,30 +9,26 @@ func main() {
 
 func search(nums []int, target int) int {
 	leftBound, rightBound := findBoundaries(nums)
-	newArr := []int{}
-	adjustment := 0
-	if leftBound > rightBound {
-		adjustment = leftBound
-		newArr = append(newArr, nums[leftBound:]...)
-		newArr = append(newArr, nums[:rightBound+1]...)
-	} else {
-		newArr = nums
-	}
-	start := 0
-	end := len(nums) - 1
 
+	idx := bs(nums, 0, rightBound, target)
+	if idx == -1 {
+		idx = bs(nums, leftBound, len(nums)-1, target)
+	}
+	return idx
+}
+
+func bs(nums []int, start, end, target int) int {
 	for start <= end {
 		midIdx := (start + end) / 2
-		if newArr[midIdx] == target {
-			return (midIdx + adjustment) % len(nums)
-		} else if newArr[midIdx] > target {
+		if nums[midIdx] == target {
+			return midIdx
+		} else if nums[midIdx] > target {
 			end = midIdx - 1
 		} else {
 			start = midIdx + 1
 		}
 	}
 	return -1
-
 }
 
 func findBoundaries(nums []int) (int, int) {
