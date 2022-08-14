@@ -15,7 +15,7 @@ func combinationSum(candidates []int, target int) [][]int {
 		return [][]int{[]int{}}
 	}
 
-	// assuming candidates are sorted in ascending order
+	sort.Ints(candidates)
 	allCombs := [][]int{}
 	for i := len(candidates) - 1; i >= 0; i-- {
 		if candidates[i] <= target {
@@ -27,6 +27,8 @@ func combinationSum(candidates []int, target int) [][]int {
 			}
 		}
 	}
+
+	fmt.Println(allCombs)
 
 	checked := [][]int{}
 	for i := 0; i < len(allCombs); i++ {
