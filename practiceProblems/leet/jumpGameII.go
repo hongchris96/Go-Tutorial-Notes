@@ -9,31 +9,20 @@ func main() {
 }
 
 func jump(nums []int) int {
-	steps, _ := jumping(0, 0, nums)
-	return steps
-}
+	steps, jumpStart, currentFurthest := 0, 0, 0
 
-func jumping(steps, currentLoc int, remainingNums []int) (int, bool) {
-	fmt.Println("steps", steps)
-	fmt.Println("loc", currentLoc)
-	stepsToEnd := []int{}
-	if currentLoc == len(remainingNums)-1 {
-		return steps, true
-	}
-	for i := remainingNums[currentLoc]; i > 0; i-- {
-		if currentLoc+i < len(remainingNums) {
-			numSteps, path := jumping(steps+1, currentLoc+i, remainingNums)
-			if path {
-				if len(stepsToEnd) == 0 {
-					stepsToEnd = append(stepsToEnd, numSteps)
-				} else if stepsToEnd[0] > numSteps {
-					stepsToEnd[0] = numSteps
-				}
+	for currentFurthest < len(nums)-1 {
+		furthestJump := 0
+		// picking jump pads that can jump further
+		for i := jumpStart; i < currentFurthest+1; i++ {
+			if i+nums[i] > furthestJump {
+				furthestJump = i + nums[i]
 			}
 		}
+		jumpStart = currentFurthest + 1
+		currentFurthest = furthestJump
+		steps += 1
 	}
-	if len(stepsToEnd) > 0 {
-		return stepsToEnd[0], true
-	}
-	return -1, false
+
+	return steps
 }
