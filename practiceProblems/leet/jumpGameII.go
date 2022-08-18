@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 func main() {
@@ -10,23 +9,31 @@ func main() {
 }
 
 func jump(nums []int) int {
-	return jumping(0, 0, nums)
+	steps, _ := jumping(0, 0, nums)
+	return steps
 }
 
-func jumping(steps, currentLoc int, remainingNums []int) int {
+func jumping(steps, currentLoc int, remainingNums []int) (int, bool) {
 	fmt.Println("steps", steps)
 	fmt.Println("loc", currentLoc)
-	stepsToEnd := math.MaxInt
+	stepsToEnd := []int{}
 	if currentLoc == len(remainingNums)-1 {
-		return steps
+		return steps, true
 	}
 	for i := remainingNums[currentLoc]; i > 0; i-- {
-		if (currentLoc+i < len(remainingNums)-1 && remainingNums[currentLoc+i] != 0) || currentLoc+i == len(remainingNums)-1 {
-			numSteps := jumping(steps+1, currentLoc+i, remainingNums)
-			if stepsToEnd > numSteps {
-				stepsToEnd = numSteps
+		if currentLoc+i < len(remainingNums) {
+			numSteps, path := jumping(steps+1, currentLoc+i, remainingNums)
+			if path {
+				if len(stepsToEnd) == 0 {
+					stepsToEnd = append(stepsToEnd, numSteps)
+				} else if stepsToEnd[0] > numSteps {
+					stepsToEnd[0] = numSteps
+				}
 			}
 		}
 	}
-	return stepsToEnd
+	if len(stepsToEnd) > 0 {
+		return stepsToEnd[0], true
+	}
+	return -1, false
 }
