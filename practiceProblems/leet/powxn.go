@@ -9,17 +9,35 @@ func main() {
 
 func myPow(x float64, n int) float64 {
 	if n < 0 {
-		return 1 / myPow(x, -n)
+		return 1 / rec(x, -n, 1.0)
 	}
-	ans := 1.0
-	for n > 0 {
-		lastBit := n & 1
-		if lastBit > 0 {
-			ans = ans * x
-		}
-		x *= x
-		// Right shift
-		n = n >> 1
-	}
-	return ans
+	return rec(x, n, 1.0)
 }
+
+func rec(x float64, n int, ans float64) float64 {
+	if n == 0 {
+		return ans
+	}
+	lastBit := n & 1
+	if lastBit > 0 {
+		ans = ans * x
+	}
+	return rec(x*x, n>>1, ans)
+}
+
+// func myPow(x float64, n int) float64 {
+// 	if n < 0 {
+// 		return 1 / myPow(x, -n)
+// 	}
+// 	ans := 1.0
+// 	for n > 0 {
+// 		lastBit := n & 1
+// 		if lastBit > 0 {
+// 			ans = ans * x
+// 		}
+// 		x *= x
+// 		// Right shift
+// 		n = n >> 1
+// 	}
+// 	return ans
+// }
